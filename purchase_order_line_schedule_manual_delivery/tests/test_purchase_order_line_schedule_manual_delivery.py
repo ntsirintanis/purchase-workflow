@@ -259,7 +259,7 @@ class TestPurchaseOrderLineScheduleManualDelivery(TransactionCase):
         po1_l2_sls = self.po1_line2.schedule_line_ids
         self.assertEquals(len(po1_l2_sls), 1.0)
         self.assertEquals(po1_l2_sls.product_qty, 12.0)
-        self.assertEquals(po1_l2_sls.qty_in_receipt, 0.0)
+        self.assertEquals(po1_l2_sls.qty_in_receipt, 12.0)
         self.assertEquals(po1_l2_sls.qty_received, 0.0)
         # Create an incoming shipment for date 2, where we expect
         # to receive 10 units of po 1 line 1
@@ -284,4 +284,62 @@ class TestPurchaseOrderLineScheduleManualDelivery(TransactionCase):
         picking = self.po1.picking_ids.filtered(
             lambda p: p.scheduled_date == self.date_planned_2
         )
-        self.assertEquals(picking, 1)
+        self.assertEquals(len(picking), 1)
+        # Check that we have the correct schedule lines.
+        po1_l1_sls = self.po1_line1.schedule_line_ids
+        po1_l1_sl_d1 = po1_l1_sls.filtered(
+            lambda l: l.date_planned == self.date_planned_1
+        )
+        self.assertEquals(po1_l1_sl_d1.product_qty, 20.0)
+        self.assertEquals(po1_l1_sl_d1.qty_in_receipt, 20.0)
+        self.assertEquals(po1_l1_sl_d1.qty_received, 0.0)
+        po1_l1_sl_d2 = po1_l1_sls.filtered(
+            lambda l: l.date_planned == self.date_planned_2
+        )
+        self.assertEquals(po1_l1_sl_d2.product_qty, 10.0)
+        self.assertEquals(po1_l1_sl_d2.qty_in_receipt, 10.0)
+        self.assertEquals(po1_l1_sl_d2.qty_received, 0.0)
+        po1_l1_sl_d3 = po1_l1_sls.filtered(
+            lambda l: l.date_planned == self.date_planned_3
+        )
+        self.assertEquals(po1_l1_sl_d3.product_qty, 12.0)
+        self.assertEquals(po1_l1_sl_d3.qty_in_receipt, 0.0)
+        self.assertEquals(po1_l1_sl_d3.qty_received, 0.0)
+        po1_l2_sls = self.po1_line2.schedule_line_ids
+        self.assertEquals(len(po1_l2_sls), 1.0)
+        self.assertEquals(po1_l2_sls.product_qty, 12.0)
+        self.assertEquals(po1_l2_sls.qty_in_receipt, 12.0)
+        self.assertEquals(po1_l2_sls.qty_received, 0.0)
+        # Complete the first picking
+        picking = self.po1.picking_ids.filtered(
+            lambda p: p.scheduled_date == self.date_planned_1
+        )
+        for move in picking.move_lines:
+            move.quantity_done = move.product_uom_qty
+        picking.action_done()
+        # Check that we have the correct schedule lines.
+        self.po1_line1.refresh()
+        po1_l1_sls = self.po1_line1.schedule_line_ids
+        po1_l1_sl_d1 = po1_l1_sls.filtered(
+            lambda l: l.date_planned == self.date_planned_1
+        )
+        self.assertEquals(po1_l1_sl_d1.product_qty, 20.0)
+        self.assertEquals(po1_l1_sl_d1.qty_in_receipt, 0.0)
+        self.assertEquals(po1_l1_sl_d1.qty_received, 20.0)
+        po1_l1_sl_d2 = po1_l1_sls.filtered(
+            lambda l: l.date_planned == self.date_planned_2
+        )
+        self.assertEquals(po1_l1_sl_d2.product_qty, 10.0)
+        self.assertEquals(po1_l1_sl_d2.qty_in_receipt, 10.0)
+        self.assertEquals(po1_l1_sl_d2.qty_received, 0.0)
+        po1_l1_sl_d3 = po1_l1_sls.filtered(
+            lambda l: l.date_planned == self.date_planned_3
+        )
+        self.assertEquals(po1_l1_sl_d3.product_qty, 12.0)
+        self.assertEquals(po1_l1_sl_d3.qty_in_receipt, 0.0)
+        self.assertEquals(po1_l1_sl_d3.qty_received, 0.0)
+        po1_l2_sls = self.po1_line2.schedule_line_ids
+        self.assertEquals(len(po1_l2_sls), 1.0)
+        self.assertEquals(po1_l2_sls.product_qty, 12.0)
+        self.assertEquals(po1_l2_sls.qty_in_receipt, 0.0)
+        self.assertEquals(po1_l2_sls.qty_received, 12.0)
