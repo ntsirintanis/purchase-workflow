@@ -51,15 +51,17 @@ class CreateManualStockPickingWizard(models.TransientModel):
                     "date_planned": line.date_planned,
                     "price_unit": line.order_line_id.price_unit,
                     "product_qty": line.product_qty,
-                    "existing_qty": line.existing_qty,
-                    "remaining_qty": line.product_qty - line.existing_qty,
-                    "qty": line.product_qty - line.existing_qty,
+                    "qty_in_receipt": line.qty_in_receipt,
+                    "remaining_qty": line.product_qty
+                    - line.qty_in_receipt
+                    - line.qty_received,
+                    "qty": line.product_qty - line.qty_in_receipt - line.qty_received,
                     "product_uom": line.order_line_id.product_uom.id,
                     "currency_id": line.order_line_id.currency_id.id,
                     "partner_id": line.order_line_id.partner_id.id,
                 },
             )
-            for line in schedule_lines
+            for line in schedule_lines.sorted(lambda l: l.date_planned)
         ]
         return lines
 
@@ -86,6 +88,7 @@ class CreateManualStockPickingWizard(models.TransientModel):
 class CreateManualStockPickingWizardLine(models.TransientModel):
     _name = "create.stock.picking.wizard.schedule.line"
     _description = "Create Manual Stock Picking Wizard Line"
+    _order = "date_planned, product_id"
 
     wizard_id = fields.Many2one(
         string="Wizard",
@@ -99,9 +102,7 @@ class CreateManualStockPickingWizardLine(models.TransientModel):
     )
     name = fields.Text(string="Description", readonly=True)
     product_id = fields.Many2one(
-        "product.product",
-        related="purchase_order_line_id.product_id",
-        string="Product",
+        "product.product", related="purchase_order_line_id.product_id", string="Product"
     )
     product_uom = fields.Many2one(
         "uom.uom",
@@ -114,7 +115,8 @@ class CreateManualStockPickingWizardLine(models.TransientModel):
         related="schedule_line_id.product_qty",
         digits="Product Unit of Measure",
     )
-    existing_qty = fields.Float(related="schedule_line_id.existing_qty",)
+    qty_in_receipt = fields.Float(related="schedule_line_id.qty_in_receipt")
+    qty_received = fields.Float(related="schedule_line_id.qty_received")
     remaining_qty = fields.Float(
         string="Remaining Quantity",
         compute="_compute_remaining_qty",
@@ -141,7 +143,9 @@ class CreateManualStockPickingWizardLine(models.TransientModel):
 
     def _compute_remaining_qty(self):
         for line in self:
-            line.remaining_qty = line.product_qty - line.existing_qty
+            line.remaining_qty = (
+                line.product_qty - line.qty_in_receipt - line.qty_received
+            )
 
     def _prepare_stock_moves(self, picking):
         po_line = self.purchase_order_line_id
@@ -150,9 +154,9 @@ class CreateManualStockPickingWizardLine(models.TransientModel):
     def _create_stock_moves(self, picking):
         values = []
         for line in self:
-            for val in line.with_context(schedule_line_id=line.id)._prepare_stock_moves(
-                picking
-            ):
+            for val in line.with_context(
+                schedule_line_id=line.schedule_line_id.id
+            )._prepare_stock_moves(picking):
                 if val.get("product_uom_qty", False):
                     val["product_uom_qty"] = line.product_uom._compute_quantity(
                         line.qty, line.product_uom, rounding_method="HALF-UP"
