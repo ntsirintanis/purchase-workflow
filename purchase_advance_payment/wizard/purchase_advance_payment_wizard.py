@@ -25,11 +25,11 @@ class AccountVoucherWizardPurchase(models.TransientModel):
         compute="_compute_get_journal_currency",
     )
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
-    amount_total = fields.Monetary("Amount total", readonly=True)
+    amount_total = fields.Monetary(readonly=True)
     amount_advance = fields.Monetary(
         "Amount advanced", required=True, currency_field="journal_currency_id"
     )
-    date = fields.Date("Date", required=True, default=fields.Date.context_today)
+    date = fields.Date(required=True, default=fields.Date.context_today)
     currency_amount = fields.Monetary(
         "Curr. amount", readonly=True, currency_field="currency_id"
     )
