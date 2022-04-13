@@ -71,7 +71,7 @@ Authors
 ~~~~~~~
 
 * Numerigraphe
-* Eficient
+* ForgeFlow
 * Camptocamp
 
 Contributors
