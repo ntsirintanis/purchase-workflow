@@ -57,6 +57,8 @@ class PurchaseOrderLine(models.Model):
         "move_ids.state",
         "move_ids.location_id",
         "move_ids.location_dest_id",
+        "product_uom_qty",
+        "qty_received",
     )
     def _compute_qty_in_receipt(self):
         for line in self:
@@ -96,3 +98,12 @@ class PurchaseOrderLine(models.Model):
                 line.pending_to_receive = True
             else:
                 line.pending_to_receive = False
+
+    def _create_or_update_picking(self):
+        """Never create a stock picking from line unless
+
+        the entire order is configured for this
+        """
+        if self.mapped("order_id").manual_delivery:
+            return
+        return super()._create_or_update_picking()
