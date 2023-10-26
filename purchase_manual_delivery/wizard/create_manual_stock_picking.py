@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare
 
 
 class CreateManualStockPickingWizard(models.TransientModel):
@@ -228,7 +229,21 @@ class CreateManualStockPickingWizardLine(models.TransientModel):
 
     def _prepare_stock_moves(self, picking):
         po_line = self.purchase_order_line_id
-        return po_line._prepare_stock_moves(picking)
+        vals = po_line._prepare_stock_moves(picking)
+        precision_digits = self.env["decimal.precision"].precision_get(
+            "Product Unit of Measure"
+        )
+        # Check if self.qty is filled, and
+        # edit vals accordingly
+        for val in vals:
+            if not float_compare(
+                val.get("product_uom_qty", 0.0),
+                self.qty,
+                precision_digits=precision_digits,
+            ):
+                continue
+            val["product_uom_qty"] = self.qty
+        return vals
 
     def _create_stock_moves(self, picking):
         values = []
