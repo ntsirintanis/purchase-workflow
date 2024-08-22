@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-12-22 19:33+0000\n"
+"PO-Revision-Date: 2024-03-19 15:41+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -39,7 +39,7 @@ msgstr "I miei acquisti da revisionare"
 #. module: purchase_request_tier_validation
 #: model:ir.model.fields,field_description:purchase_request_tier_validation.field_purchase_request__need_validation
 msgid "Need Validation"
-msgstr "Richiede validazione"
+msgstr "Richiede conferma"
 
 #. module: purchase_request_tier_validation
 #: model_terms:ir.ui.view,arch_db:purchase_request_tier_validation.view_purchase_request_filter
@@ -64,12 +64,12 @@ msgstr "Prossima revisione"
 #. module: purchase_request_tier_validation
 #: model:ir.model,name:purchase_request_tier_validation.model_purchase_request
 msgid "Purchase Request"
-msgstr "Richiesta d'Acquisto"
+msgstr "Richiesta di acquisto"
 
 #. module: purchase_request_tier_validation
 #: model_terms:ir.ui.view,arch_db:purchase_request_tier_validation.view_purchase_request_filter
 msgid "Purchase Requests validated and ready to be confirmed"
-msgstr "Richiesta d'Acquisto validata e pronta per essere confermata"
+msgstr "Richiesta di acquisto validata e pronta per essere confermata"
 
 #. module: purchase_request_tier_validation
 #: model:ir.model.fields,field_description:purchase_request_tier_validation.field_purchase_request__rejected
@@ -100,12 +100,12 @@ msgstr "Messaggio per 'Da validare'"
 #: model:ir.model.fields,field_description:purchase_request_tier_validation.field_purchase_request__validated
 #: model_terms:ir.ui.view,arch_db:purchase_request_tier_validation.view_purchase_request_filter
 msgid "Validated"
-msgstr "Approvato"
+msgstr "Approvata"
 
 #. module: purchase_request_tier_validation
 #: model:ir.model.fields,field_description:purchase_request_tier_validation.field_purchase_request__validated_message
 msgid "Validated Message"
-msgstr "Messaggio per 'Validato'"
+msgstr "Messaggio per 'Validata'"
 
 #. module: purchase_request_tier_validation
 #: model:ir.model.fields,field_description:purchase_request_tier_validation.field_purchase_request__validation_status

@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-23 17:50+0000\n"
-"PO-Revision-Date: 2023-07-20 18:09+0000\n"
-"Last-Translator: Francesco Foresti <francesco.foresti@ooops404.com>\n"
+"PO-Revision-Date: 2024-02-05 00:27+0000\n"
+"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: Italian (https://www.transifex.com/oca/teams/23907/it/)\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -65,12 +65,7 @@ msgstr "Riga ordine di acquisto"
 #. module: purchase_discount
 #: model:ir.model,name:purchase_discount.model_purchase_report
 msgid "Purchase Report"
-msgstr "Report Acquisti"
-
-#. module: purchase_discount
-#: model:ir.model,name:purchase_discount.model_stock_move
-msgid "Stock Move"
-msgstr "Movimento di magazzino"
+msgstr "Resoconto di acquisto"
 
 #. module: purchase_discount
 #: model:ir.model,name:purchase_discount.model_product_supplierinfo
@@ -91,6 +86,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:purchase_discount.res_partner_form_view
 msgid "the parent company"
 msgstr "l'azienda madre"
+
+#~ msgid "Stock Move"
+#~ msgstr "Movimento di magazzino"
 
 #~ msgid "Stock Rule"
 #~ msgstr "Regola Stock"

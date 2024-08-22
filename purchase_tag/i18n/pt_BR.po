@@ -6,8 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-10-29 08:31+0000\n"
-"Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
+"PO-Revision-Date: 2024-05-22 03:11+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.17\n"
+
+#. module: purchase_tag
+#: model:ir.model.fields,field_description:purchase_tag.field_purchase_tag__child_ids
+msgid "Child"
+msgstr "Criança"
 
 #. module: purchase_tag
 #: model:ir.model.fields,field_description:purchase_tag.field_purchase_tag__color
@@ -62,6 +68,16 @@ msgid "Last Updated on"
 msgstr "Última Atualização em"
 
 #. module: purchase_tag
+#: model:ir.model.fields,field_description:purchase_tag.field_purchase_tag__parent_id
+msgid "Parent"
+msgstr "Principal"
+
+#. module: purchase_tag
+#: model:ir.model.fields,field_description:purchase_tag.field_purchase_tag__parent_path
+msgid "Parent Path"
+msgstr "Rota Principal"
+
+#. module: purchase_tag
 #: model:ir.model,name:purchase_tag.model_purchase_order
 msgid "Purchase Order"
 msgstr "Pedido de Compra"
@@ -88,3 +104,10 @@ msgstr "Marcador já Existe!"
 #: model_terms:ir.ui.view,arch_db:purchase_tag.purchase_tag_view_form
 msgid "Tags"
 msgstr "Marcadores"
+
+#. module: purchase_tag
+#. odoo-python
+#: code:addons/purchase_tag/models/purchase_tag.py:0
+#, python-format
+msgid "Tags cannot be recursive."
+msgstr "Tags não podem ser recursivas."
